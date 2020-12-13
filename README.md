@@ -1,15 +1,13 @@
-# umi project
+# Umi-Admin-plus
+一个基于 umi + dav + antd 的 typescript 后台管理项目模板。能够自动基于路由实现导航菜单、面包屑以及路由权限的分配，目前已基于原仓库重构 layout 逻辑。
 
-## Getting Started
+**完成功能：**
 
-Install dependencies,
-
-```bash
-$ yarn
-```
-
-Start the dev server,
-
-```bash
-$ yarn start
-```
+- [x] 登陆模块
+- [x] 权限校验
+- [x] 自动生成菜单栏
+- [x] 自动生成导航头
+- [x] 点击菜单生成选项卡以及自定义右键菜单
+- [x] 内置 keep-alive 组件（通过路由的 wrappers 注入）
+- [x] 全局请求封装（包括重试和切换页面自动取消请求等）
+- [x] 兼容移动端页面
