@@ -16,8 +16,8 @@ const useAuth = () => {
       type: 'permission/resetUser',
     });
   }, [dispatch]);
-  const { breadcrumbs } = useLayout();
-  const currentRoute = breadcrumbs[breadcrumbs.length - 1]?.route;
+  const { matchedRoutes } = useLayout();
+  const currentRoute = matchedRoutes[matchedRoutes.length - 1]?.route;
   const isMathRoles = matchRoles(roles, currentRoute?.roles);
 
   return { user, isLogin, roles, token, isMathRoles, resetUser };

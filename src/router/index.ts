@@ -33,7 +33,7 @@ export const routes: IRoute[] = [
   {
     path: '/',
     component: '@/layouts/BlankLayout',
-    wrappers: ['@/wrappers/AuthWrapper'],
+    wrappers: ['@/wrappers/AuthWrapper', '@/wrappers/ConfigWrapper'],
     routes: [
       {
         path: '/login',
@@ -50,7 +50,6 @@ export const routes: IRoute[] = [
             hideInMenu: true,
           },
           {
-            roles: [],
             breadcrumbName: '首页',
             path: '/dashboard',
             name: 'dashboard',

@@ -25,7 +25,7 @@ export type LayoutRoute = IRoute & {
   };
 };
 
-export interface MathRoutes {
+export interface MatchedRoutes {
   route: LayoutRoute & {
     realPath: string;
     keeperKey: string;
@@ -36,8 +36,11 @@ export interface MathRoutes {
 export interface LayoutData {
   selectedKey: string;
   collapsed: boolean;
-  breadcrumbs: MathRoutes[];
-  tabPanes: MathRoutes[];
+  breadcrumbs: MatchedRoutes[];
+  tabPanes: MatchedRoutes[];
   tabKey: string;
   openKeys: string[];
+  matchedRoutes: MatchedRoutes[];
+  inLayout: boolean;
+  isNotFound: boolean;
 }

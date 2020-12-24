@@ -1,6 +1,6 @@
 import { matchPath } from 'umi';
 import { Model } from '@/interfaces/Model';
-import { LayoutData, MathRoutes } from '@/interfaces/Layout';
+import { LayoutData, MatchedRoutes } from '@/interfaces/Layout';
 
 function pushTabPane(
   tabPanes: LayoutData['tabPanes'],
@@ -35,14 +35,27 @@ const layoutModel: Model<LayoutModelState> = {
     openKeys: [],
     tabPanes: [],
     tabKey: '',
+    matchedRoutes: [],
+    inLayout: false,
+    isNotFound: false,
   },
   reducers: {
+    setInLayout(state, { inLayout }) {
+      return { ...state!, inLayout: inLayout! };
+    },
+    setMatchedRoutes(state, { matchedRoutes }) {
+      return { ...state!, matchedRoutes: matchedRoutes! };
+    },
+    setIsNotFound(state, { isNotFound }) {
+      return { ...state!, isNotFound: isNotFound! };
+    },
     setSelectedKey(state, { selectedKey }) {
       return { ...state!, selectedKey: selectedKey! };
     },
     setCollapsed(state, { collapsed }) {
       return { ...state!, collapsed: collapsed! };
     },
+
     setBreadcrumbs(state, { breadcrumbs }) {
       return { ...state!, breadcrumbs: breadcrumbs! };
     },
@@ -61,14 +74,39 @@ const layoutModel: Model<LayoutModelState> = {
     },
   },
   effects: {
-    *getLayoutData({ payload, location }, { put, select }) {
+    *getLayoutData(
+      { payload, originPayload, location, inLayout },
+      { put, select },
+    ) {
+      // if in AccessLayout
+      yield put({
+        type: 'setInLayout',
+        inLayout,
+      });
+      yield put({
+        type: 'setMatchedRoutes',
+        matchedRoutes: originPayload,
+      });
+
+      const currentRoute = originPayload[originPayload.length - 1]?.route;
+      const isNotFound =
+        currentRoute && (!currentRoute.path || currentRoute.path === '*');
+
+      yield put({
+        type: 'setIsNotFound',
+        isNotFound,
+      });
+
       if (payload.length === 0) {
         return;
       }
-      const openKeys = payload.map(({ route }: MathRoutes) => route.realPath);
-      const currentMatched = payload[payload.length - 1];
-      const currentRoute = currentMatched.route;
-      const selectedKey = currentRoute.displayPath || currentRoute.path;
+      const openKeys = payload.map(
+        ({ route }: MatchedRoutes) => route.realPath,
+      );
+      const currentLayoutMatched = payload[payload.length - 1];
+      const currentLayoutRoute = currentLayoutMatched.route;
+      const selectedKey =
+        currentLayoutRoute.displayPath || currentLayoutRoute.path;
 
       yield put({
         type: 'setSelectedKey',
@@ -84,7 +122,7 @@ const layoutModel: Model<LayoutModelState> = {
       });
       yield put({
         type: 'pushTabPane',
-        tabPane: currentMatched,
+        tabPane: currentLayoutMatched,
         path: location.pathname + location.search,
       });
       yield put({

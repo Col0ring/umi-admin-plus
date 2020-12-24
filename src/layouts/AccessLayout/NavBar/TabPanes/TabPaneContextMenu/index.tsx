@@ -59,20 +59,8 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
         icon: <ReloadOutlined />,
         name: '刷新全部',
         click: () => {
-          if (path !== pathKey) {
-            clear().then(() => {
-              history.push(pathKey);
-              const unListen = history.listen(() => {
-                unListen && unListen();
-                setTimeout(() => {
-                  dropScope(keeperKey);
-                }, 60);
-              });
-            });
-          } else {
-            clear();
-            refreshScope(keeperKey);
-          }
+          clear();
+          refreshScope(keeperKey);
         },
       },
       {

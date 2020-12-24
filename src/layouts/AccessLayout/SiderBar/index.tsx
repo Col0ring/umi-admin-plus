@@ -128,42 +128,44 @@ const SiderBar: React.FC<SiderBarProps> = ({
   }, [savedOpenKeys]);
 
   useEffect(() => {
-    if (!isMobile) {
+    if (isMobile) {
       setCollapsed(true);
     }
   }, [pathname, isMobile]);
 
   const siderBarClassName = classnames(styles.siderBar, {
-    [styles.fixed]: isMobile,
+    [styles.fixed]: !isMobile,
   });
 
   return React.createElement(
-    isMobile ? React.Fragment : Drawer,
+    isMobile ? Drawer : React.Fragment,
     isMobile
-      ? null
-      : {
+      ? {
           bodyStyle: { padding: 0 },
           width: 200,
           closable: false,
           placement: 'left',
           visible: !collapsed,
           onClose: onDrawerClose,
-        },
+        }
+      : null,
     <Layout.Sider
       className={siderBarClassName}
       trigger={null}
-      collapsedWidth={isMobile ? 80 : 0}
+      collapsedWidth={isMobile ? 0 : 80}
       collapsible
       breakpoint="md"
-      collapsed={isMobile ? collapsed : false}
-      onBreakpoint={isMobile ? toggleCollapse : undefined}
+      collapsed={isMobile ? false : collapsed}
+      onBreakpoint={isMobile ? undefined : toggleCollapse}
     >
       {setting.logoShow && <Logo title={setting.title} logo={setting.logo} />}
 
       <Menu
         mode="inline"
         selectedKeys={[selectedKey]}
-        openKeys={collapsed ? state.collapsedOpenKeys : state.openKeys}
+        openKeys={
+          collapsed && !isMobile ? state.collapsedOpenKeys : state.openKeys
+        }
         theme="dark"
         onOpenChange={onOpenChange}
       >

@@ -40,7 +40,7 @@ const NavBar: React.FC = () => {
   }
 
   return React.createElement(
-    setting.navbarFixed || !isMobile ? Affix : 'div',
+    setting.navbarFixed || isMobile ? Affix : 'div',
     null,
     <div>
       <Layout.Header className={styles.navbar}>

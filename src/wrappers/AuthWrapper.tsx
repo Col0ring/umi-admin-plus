@@ -1,11 +1,16 @@
 import React, { useEffect, useMemo } from 'react';
 import { Redirect, matchPath, useLocation, useDispatch } from 'umi';
 import { whitePageList, noLoginPageList } from '@/router';
-import PageLoading from '@/components/PageLoading';
 import useAuth from '@/hooks/useAuth';
+import PageLoading from '@/components/PageLoading';
+import NotFoundPage from '@/components/404';
+import ForbiddenPage from '@/components/403';
+import useLayout from '@/hooks/useLayout';
 
 const AuthWrapper: React.FC = ({ children }) => {
-  const { isLogin, user } = useAuth();
+  const { isLogin, user, isMathRoles } = useAuth();
+  const { inLayout, isNotFound } = useLayout();
+
   const { pathname, search } = useLocation();
   const dispatch = useDispatch();
 
@@ -38,6 +43,12 @@ const AuthWrapper: React.FC = ({ children }) => {
       return <Redirect to="/" />;
     }
     if (user) {
+      if (!isMathRoles && isNotFound) {
+        return <NotFoundPage />;
+      }
+      if (!isMathRoles && !isWhiteListPage && !inLayout) {
+        return <ForbiddenPage />;
+      }
       return <>{children}</>;
     } else {
       return <PageLoading tip="正在获取用户信息" />;

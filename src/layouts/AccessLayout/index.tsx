@@ -16,17 +16,16 @@ const AccessLayout: React.FC<IRouteComponentProps> = props => {
     route: { routes },
     children,
   } = props;
-  const { collapsed } = useLayout();
+  const { collapsed, openKeys, selectedKey, isNotFound } = useLayout();
   const { isMathRoles } = useAuth();
-
   const isMobile = useMobile();
-  const { openKeys, selectedKey } = useLayout();
+
   return (
     <div className="umi-admin-layout">
       <Layout
         style={{
           minHeight: '100vh',
-          paddingLeft: isMobile ? (collapsed ? 80 : 200) : 0,
+          paddingLeft: isMobile ? 0 : collapsed ? 80 : 200,
           transition: 'all 0.2s',
         }}
       >
@@ -39,7 +38,7 @@ const AccessLayout: React.FC<IRouteComponentProps> = props => {
         <Layout>
           <NavBar />
           <MainContent>
-            {isMathRoles ? children : <ForbiddenPage />}
+            {isMathRoles || isNotFound ? children : <ForbiddenPage />}
           </MainContent>
           <LayoutFooter />
         </Layout>

@@ -1,7 +1,7 @@
 import { getDvaApp } from 'umi';
 import { message } from 'antd';
 import setting from '@/setting';
-import { MathRoutes } from './interfaces/Layout';
+import { MatchedRoutes } from './interfaces/Layout';
 let store: GlobalObject;
 
 export const dva = {
@@ -26,8 +26,8 @@ export function onRouteChange({ matchedRoutes, location }: GlobalObject) {
     document.title = setting.title;
   }
   let flag = false;
-  matchedRoutes = matchedRoutes
-    .filter(({ route }: MathRoutes) => {
+  const layoutMatchedRoutes = matchedRoutes
+    .filter(({ route }: MatchedRoutes) => {
       if (flag) {
         return true;
       }
@@ -38,7 +38,7 @@ export function onRouteChange({ matchedRoutes, location }: GlobalObject) {
       }
       return false;
     })
-    .map(({ route, match }: MathRoutes) => {
+    .map(({ route, match }: MatchedRoutes) => {
       route.realPath = route.displayPath || match.url;
       route.keeperKey = route.keepAlive?.name || route.realPath;
       return {
@@ -48,7 +48,9 @@ export function onRouteChange({ matchedRoutes, location }: GlobalObject) {
     });
   store.dispatch({
     type: 'layout/getLayoutData',
-    payload: matchedRoutes,
+    payload: layoutMatchedRoutes,
+    originPayload: matchedRoutes,
     location,
+    inLayout: flag,
   });
 }
