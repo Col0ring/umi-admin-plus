@@ -12,6 +12,8 @@ import {
 import classnames from 'classnames';
 import useAuth from '@/hooks/useAuth';
 import styles from './index.less';
+import Search from '@/components/Search';
+import useMobile from '@/hooks/useMobile';
 
 interface UserInfoDropdownProps {
   onLogout: () => void;
@@ -44,6 +46,7 @@ const UserInfo: React.FC = () => {
   });
 
   const { resetUser } = useAuth();
+  const isMobile = useMobile();
 
   const onVisibleChange = (visible: boolean) => {
     setState(draft => {
@@ -62,6 +65,7 @@ const UserInfo: React.FC = () => {
     <div className={styles.globalHeaderContainer}>
       <div className={styles.tools}>
         <Space size="middle">
+          <Search collapsed={isMobile} />
           <Badge dot>
             <BellOutlined />
           </Badge>

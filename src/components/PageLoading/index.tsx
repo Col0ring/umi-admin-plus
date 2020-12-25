@@ -7,7 +7,7 @@ interface PageLoadingProps {
 const PageLoading: React.FC<PageLoadingProps> = ({ tip }) => {
   return (
     <div className={styles.pageLoading}>
-      <Spin size="large" tip={tip}></Spin>
+      <Spin className={styles.spin} size="large" tip={tip} />
     </div>
   );
 };
