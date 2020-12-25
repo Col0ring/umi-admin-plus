@@ -9,17 +9,17 @@ import useMobile from '@/hooks/useMobile';
 import useLayout from '@/hooks/useLayout';
 import useAuth from '@/hooks/useAuth';
 import ForbiddenPage from '@/components/403';
+import PageLoading from '@/components/PageLoading';
 
-const AccessLayout: React.FC<IRouteComponentProps> = props => {
+const AccessLayout: React.FC<IRouteComponentProps> = (props) => {
   const {
     location: { pathname },
     route: { routes },
     children,
   } = props;
-  const { collapsed, openKeys, selectedKey, isNotFound } = useLayout();
+  const { collapsed, openKeys, selectedKey, isNotFound, loading } = useLayout();
   const { isMathRoles } = useAuth();
   const isMobile = useMobile();
-
   return (
     <div className="umi-admin-layout">
       <Layout
@@ -38,7 +38,13 @@ const AccessLayout: React.FC<IRouteComponentProps> = props => {
         <Layout>
           <NavBar />
           <MainContent>
-            {isMathRoles || isNotFound ? children : <ForbiddenPage />}
+            {loading ? (
+              <PageLoading tip="加载中..." />
+            ) : isMathRoles || isNotFound ? (
+              children
+            ) : (
+              <ForbiddenPage />
+            )}
           </MainContent>
           <LayoutFooter />
         </Layout>

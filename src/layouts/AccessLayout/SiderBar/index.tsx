@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useCallback } from 'react';
+import React, { memo, useEffect, useCallback, useMemo } from 'react';
 import { Link, IRoute } from 'umi';
 import classnames from 'classnames';
 import { useImmer } from 'use-immer';
@@ -81,7 +81,7 @@ const SiderBar: React.FC<SiderBarProps> = ({
 
   const renderMenus = useCallback(
     (menus: IRoute[]) => {
-      return menus.map(menu => {
+      return menus.map((menu) => {
         return renderMenu(menu);
       });
     },
@@ -101,14 +101,14 @@ const SiderBar: React.FC<SiderBarProps> = ({
   );
 
   const onOpenChange: MenuProps['onOpenChange'] = useCallback(
-    keys => {
+    (keys) => {
       //  在collapse关闭的时候会变为空数组
       if (collapsed) {
-        setState(draft => {
+        setState((draft) => {
           draft.collapsedOpenKeys = keys as string[];
         });
       } else {
-        setState(draft => {
+        setState((draft) => {
           draft.openKeys = keys as string[];
         });
       }
@@ -121,7 +121,7 @@ const SiderBar: React.FC<SiderBarProps> = ({
   }, [collapsed, setCollapsed]);
 
   useEffect(() => {
-    setState(draft => {
+    setState((draft) => {
       const openKeys = [...new Set([...draft.openKeys, ...savedOpenKeys])];
       draft.openKeys = openKeys;
     });
@@ -137,41 +137,59 @@ const SiderBar: React.FC<SiderBarProps> = ({
     [styles.fixed]: !isMobile,
   });
 
-  return React.createElement(
-    isMobile ? Drawer : React.Fragment,
-    isMobile
-      ? {
-          bodyStyle: { padding: 0 },
-          width: 200,
-          closable: false,
-          placement: 'left',
-          visible: !collapsed,
-          onClose: onDrawerClose,
-        }
-      : null,
-    <Layout.Sider
-      className={siderBarClassName}
-      trigger={null}
-      collapsedWidth={isMobile ? 0 : 80}
-      collapsible
-      breakpoint="md"
-      collapsed={isMobile ? false : collapsed}
-      onBreakpoint={isMobile ? undefined : toggleCollapse}
-    >
-      {setting.logoShow && <Logo title={setting.title} logo={setting.logo} />}
-
-      <Menu
-        mode="inline"
-        selectedKeys={[selectedKey]}
-        openKeys={
-          collapsed && !isMobile ? state.collapsedOpenKeys : state.openKeys
-        }
-        theme="dark"
-        onOpenChange={onOpenChange}
+  const renderSider = useMemo(() => {
+    return (
+      <Layout.Sider
+        className={siderBarClassName}
+        trigger={null}
+        collapsedWidth={isMobile ? 0 : 80}
+        collapsible
+        breakpoint="md"
+        collapsed={isMobile ? false : collapsed}
+        onBreakpoint={isMobile ? undefined : toggleCollapse}
       >
-        {renderMenus(menus)}
-      </Menu>
-    </Layout.Sider>,
+        {setting.logoShow && <Logo title={setting.title} logo={setting.logo} />}
+
+        <Menu
+          mode="inline"
+          selectedKeys={[selectedKey]}
+          openKeys={
+            collapsed && !isMobile ? state.collapsedOpenKeys : state.openKeys
+          }
+          theme="dark"
+          onOpenChange={onOpenChange}
+        >
+          {renderMenus(menus)}
+        </Menu>
+      </Layout.Sider>
+    );
+  }, [
+    siderBarClassName,
+    isMobile,
+    collapsed,
+    toggleCollapse,
+    onOpenChange,
+    menus,
+    state.collapsedOpenKeys,
+    state.openKeys,
+    selectedKey,
+  ]);
+
+  return isMobile ? (
+    <Drawer
+      bodyStyle={{ padding: 0 }}
+      width={200}
+      closable={false}
+      placement="left"
+      forceRender
+      getContainer={false}
+      visible={!collapsed}
+      onClose={onDrawerClose}
+    >
+      {renderSider}
+    </Drawer>
+  ) : (
+    renderSider
   );
 };
 

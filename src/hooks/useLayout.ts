@@ -3,7 +3,10 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'umi';
 
 const useLayout = () => {
-  const layoutData = useSelector(({ layout }) => layout);
+  const { layout, loading } = useSelector(({ layout, loading }) => ({
+    layout,
+    loading: loading.effects['layout/getLayoutData'],
+  }));
   const dispatch = useDispatch();
   const setCollapsed = useCallback(
     (collapsed: boolean) => {
@@ -23,7 +26,7 @@ const useLayout = () => {
     },
     [dispatch],
   );
-  return { ...layoutData, setCollapsed, setTabPanes };
+  return { ...layout, loading, setCollapsed, setTabPanes };
 };
 
 export default useLayout;

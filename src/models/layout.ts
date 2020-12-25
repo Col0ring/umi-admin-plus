@@ -10,7 +10,7 @@ function pushTabPane(
   pane = { ...pane } as Item<LayoutData['tabPanes']>;
   pane.route = { ...pane.route };
   pane.route.realPath = path;
-  const idx = tabPanes.findIndex(item =>
+  const idx = tabPanes.findIndex((item) =>
     matchPath(item.route.realPath, {
       path: path,
       exact: true,
@@ -107,7 +107,6 @@ const layoutModel: Model<LayoutModelState> = {
       const currentLayoutRoute = currentLayoutMatched.route;
       const selectedKey =
         currentLayoutRoute.displayPath || currentLayoutRoute.path;
-
       yield put({
         type: 'setSelectedKey',
         selectedKey,

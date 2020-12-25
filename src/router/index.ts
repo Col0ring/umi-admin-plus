@@ -33,7 +33,11 @@ export const routes: IRoute[] = [
   {
     path: '/',
     component: '@/layouts/BlankLayout',
-    wrappers: ['@/wrappers/AuthWrapper', '@/wrappers/ConfigWrapper'],
+    wrappers: [
+      '@/wrappers/AuthWrapper',
+      '@/wrappers/ConfigWrapper',
+      '@/wrappers/PageProgressWrapper',
+    ],
     routes: [
       {
         path: '/login',
