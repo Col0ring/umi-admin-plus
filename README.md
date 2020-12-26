@@ -1,4 +1,4 @@
-# Umi-Admin-plus
+# Umi-Admin-Plus
 一个基于 umi + dva + antd 的 typescript 后台管理项目模板。能够自动基于路由实现导航菜单、面包屑以及路由权限的分配，目前已基于原仓库重构 layout 逻辑。
 
 **完成功能：**
