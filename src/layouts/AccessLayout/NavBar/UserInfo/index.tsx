@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import { useImmer } from 'use-immer';
 import { Avatar, Dropdown, Badge, Space, Menu } from 'antd';
 import {
@@ -14,6 +14,7 @@ import useAuth from '@/hooks/useAuth';
 import styles from './index.less';
 import Search from '@/components/Search';
 import useMobile from '@/hooks/useMobile';
+import { AccessLayoutContext } from '../../Provider';
 
 interface UserInfoDropdownProps {
   onLogout: () => void;
@@ -47,9 +48,10 @@ const UserInfo: React.FC = () => {
 
   const { resetUser } = useAuth();
   const isMobile = useMobile();
+  const { toggleFull } = useContext(AccessLayoutContext);
 
   const onVisibleChange = (visible: boolean) => {
-    setState(draft => {
+    setState((draft) => {
       draft.dropDownVisible = visible;
     });
   };
@@ -69,7 +71,7 @@ const UserInfo: React.FC = () => {
           <Badge dot>
             <BellOutlined />
           </Badge>
-          <FullscreenOutlined />
+          <FullscreenOutlined onClick={toggleFull} />
         </Space>
       </div>
       <Dropdown

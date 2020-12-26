@@ -1,5 +1,6 @@
 import mockApi from './config';
-import { Request, Response, UserProps } from 'umi';
+import { Request, Response } from 'umi';
+import { UserProps } from '@/interfaces/Data';
 import { phoneReg } from '../src/utils/validators';
 import { createAuthCode } from './helpers';
 let authCode = '';

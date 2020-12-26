@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { getDvaApp } from 'umi';
 import { message, Modal } from 'antd';
-import { getToken } from '@/utils/auth';
+import { getToken, removeToken } from '@/utils/auth';
 
 const baseURL = '/api';
 const service = axios.create({
@@ -25,10 +25,10 @@ function errorHandler(count: number, msg: string) {
   }
 }
 service.interceptors.request.use(
-  config => {
+  (config) => {
     if (window._axiosPromiseArr && Array.isArray(window._axiosPromiseArr)) {
       const index = window._axiosPromiseArr.findIndex(
-        item => item.url === config.url,
+        (item) => item.url === config.url,
       );
       const canceledRequest = window._axiosPromiseArr[index];
       if (canceledRequest) {
@@ -37,7 +37,7 @@ service.interceptors.request.use(
       }
     }
 
-    config.cancelToken = new axios.CancelToken(cancel => {
+    config.cancelToken = new axios.CancelToken((cancel) => {
       window._axiosPromiseArr = window._axiosPromiseArr || [];
       window._axiosPromiseArr.push({ url: config.url, cancel });
     });
@@ -50,22 +50,25 @@ service.interceptors.request.use(
     }
     return config;
   },
-  error => {
+  (error) => {
     errorHandler(error.config.headers.retryCount, error.message);
     return retry(error.config);
   },
 );
 
 service.interceptors.response.use(
-  response => {
+  (response) => {
     const data = response.data;
     if (data.code === 200) {
       return data;
     } else if (data.code === 401) {
+      // 失败就 remove token
+      removeToken();
       Modal.warning({
         title: '获取信息失败',
         content: data.msg,
         async onOk() {
+          // 点击确定才跳转
           const app = getDvaApp();
           app._store.dispatch({
             type: 'permission/resetUser',
@@ -78,7 +81,7 @@ service.interceptors.response.use(
       return false;
     }
   },
-  error => {
+  (error) => {
     if (axios.isCancel(error)) {
       return false;
     }
