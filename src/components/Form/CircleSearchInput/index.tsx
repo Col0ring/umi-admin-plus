@@ -9,7 +9,7 @@ export interface SearchProps {
   onChange?: (value: string) => void;
 }
 
-const Search: React.FC<SearchProps> = ({
+const CircleSearchInput: React.FC<SearchProps> = ({
   collapsed,
   className,
   onChange,
@@ -33,12 +33,12 @@ const Search: React.FC<SearchProps> = ({
           <SearchOutlined
             className={styles.searchIcon}
             onClick={() => {
-              setActive(active => !active);
+              setActive((active) => !active);
             }}
           />
           <input
             value={value}
-            onChange={e => {
+            onChange={(e) => {
               onChange && onChange(e.target.value);
             }}
             ref={inputRef}
@@ -52,4 +52,4 @@ const Search: React.FC<SearchProps> = ({
   );
 };
 
-export default Search;
+export default CircleSearchInput;

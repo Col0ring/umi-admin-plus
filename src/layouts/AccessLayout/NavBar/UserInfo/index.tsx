@@ -12,7 +12,7 @@ import {
 import classnames from 'classnames';
 import useAuth from '@/hooks/useAuth';
 import styles from './index.less';
-import Search from '@/components/Search';
+import CircleSearchInput from '@/components/Form/CircleSearchInput';
 import useMobile from '@/hooks/useMobile';
 import { AccessLayoutContext } from '../../Provider';
 
@@ -67,7 +67,7 @@ const UserInfo: React.FC = () => {
     <div className={styles.globalHeaderContainer}>
       <div className={styles.tools}>
         <Space size="middle">
-          <Search collapsed={isMobile} />
+          <CircleSearchInput collapsed={isMobile} />
           <Badge dot>
             <BellOutlined />
           </Badge>

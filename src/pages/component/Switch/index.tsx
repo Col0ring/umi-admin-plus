@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Form, Button } from 'antd';
-import ImageUpload from '@/components/ImageUpload';
+import ImageUpload from '@/components/Form/ImageUpload';
 import { imageUploadValidator } from '@/utils/validators';
-import { getBase64 } from '@/components/ImageUpload/utils';
+import { getBase64 } from '@/components/Form/ImageUpload/utils';
 const Switch: React.FC = () => {
   const [form] = Form.useForm();
   useEffect(() => {
