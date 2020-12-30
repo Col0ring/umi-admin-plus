@@ -32,10 +32,10 @@ class App extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
           getContainer={false}
-          style={{ position: 'absolute' }}
         >
           <p>Some contents...</p>
         </Drawer>
+        {this.props.children}
       </div>
     );
   }

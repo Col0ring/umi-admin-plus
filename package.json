@@ -27,6 +27,7 @@
     "@umijs/test": "^3.3.1",
     "ahooks": "^2.9.2",
     "antd": "^4.9.2",
+    "antd-img-crop": "^3.13.2",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "lint-staged": "^10.0.7",

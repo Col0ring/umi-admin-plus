@@ -28,7 +28,7 @@ const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
     [close],
   );
   const onTabClick: TabsProps['onTabClick'] = useCallback(
-    key => {
+    (key) => {
       if (tabKey === key) return;
       history.replace(key);
     },
@@ -65,7 +65,7 @@ const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
                       <span>{tabName}</span>
                     </div>
                     <CloseCircleOutlined
-                      onClick={e => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         onPaneClose(route.realPath);
                       }}

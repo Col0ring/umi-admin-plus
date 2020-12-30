@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { useHistory, useAliveController } from 'umi';
 import {
   CloseCircleOutlined,
@@ -92,7 +92,7 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
         name: '关闭其他',
         click: () => {
           const currentPanes = tabPanes.filter(
-            pane => pane.route.realPath === pathKey,
+            (pane) => pane.route.realPath === pathKey,
           );
           setTabPanes(currentPanes);
           if (path === pathKey) {
@@ -113,15 +113,15 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
         name: '关闭左侧',
         click: () => {
           const pathIndex = tabPanes.findIndex(
-            pane => pane.route.realPath === path,
+            (pane) => pane.route.realPath === path,
           );
           const currentIndex = tabPanes.findIndex(
-            pane => pane.route.realPath === pathKey,
+            (pane) => pane.route.realPath === pathKey,
           );
           const currentPanes = tabPanes.slice(currentIndex);
           const closePanes = tabPanes.slice(0, currentIndex);
           setTabPanes(currentPanes);
-          closePanes.forEach(pane => {
+          closePanes.forEach((pane) => {
             dropScope(pane.route.keeperKey);
           });
           if (pathIndex < currentIndex) {
@@ -130,7 +130,7 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
               unListen && unListen();
               setTimeout(() => {
                 dropScope(
-                  closePanes.find(pane => pane.route.realPath === path)?.route
+                  closePanes.find((pane) => pane.route.realPath === path)?.route
                     .keeperKey || path,
                 );
               }, 60);
@@ -143,15 +143,15 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
         name: '关闭右侧',
         click: () => {
           const pathIndex = tabPanes.findIndex(
-            pane => pane.route.realPath === path,
+            (pane) => pane.route.realPath === path,
           );
           const currentIndex = tabPanes.findIndex(
-            pane => pane.route.realPath === pathKey,
+            (pane) => pane.route.realPath === pathKey,
           );
           const currentPanes = tabPanes.slice(0, currentIndex + 1);
           const closePanes = tabPanes.slice(currentIndex + 1);
           setTabPanes(currentPanes);
-          closePanes.forEach(pane => {
+          closePanes.forEach((pane) => {
             dropScope(pane.route.keeperKey);
           });
           if (pathIndex < 0 || pathIndex > currentIndex) {
@@ -160,7 +160,7 @@ const TabPaneContextMenu: React.FC<TabPaneContextMenuProps> = ({
               unListen && unListen();
               setTimeout(() => {
                 dropScope(
-                  closePanes.find(pane => pane.route.realPath === path)?.route
+                  closePanes.find((pane) => pane.route.realPath === path)?.route
                     .keeperKey || path,
                 );
               }, 60);
