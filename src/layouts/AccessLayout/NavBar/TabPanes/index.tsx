@@ -6,19 +6,28 @@ import { TabsProps } from 'antd/es/tabs';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import useCloseTab from '@/hooks/useCloseTab';
 import TotalIcons from '@/components/TotalIcons';
-import TabMenu from './TabPaneContextMenu';
+import TabPaneContextMenu from './TabPaneContextMenu';
 import styles from './index.less';
-import { LayoutData } from '@/interfaces/Layout';
+import { LayoutData, MatchedRoute } from '@/interfaces/Layout';
+import OperationButton from './OperationButton';
 
 export interface TabPaneProps {
+  currentRoute: MatchedRoute['route'];
   // current pathname
   path: string;
   tabPanes: LayoutData['tabPanes'];
+  setTabPanes: (tabPanes: LayoutData['tabPanes']) => void;
   // active key
   tabKey: string;
 }
 
-const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
+const TabPanes: React.FC<TabPaneProps> = ({
+  path,
+  tabPanes,
+  tabKey,
+  currentRoute,
+  setTabPanes,
+}) => {
   const history = useHistory();
   const close = useCloseTab(tabPanes, path);
   const onPaneClose = useCallback(
@@ -43,6 +52,17 @@ const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
         type="card"
         hideAdd
         tabBarStyle={{ margin: 0 }}
+        tabBarExtraContent={{
+          right: (
+            <OperationButton
+              setTabPanes={setTabPanes}
+              tabPanes={tabPanes}
+              path={path}
+              keeperKey={currentRoute.keeperKey}
+              pathKey={currentRoute.realPath}
+            />
+          ),
+        }}
       >
         {tabPanes.map(({ route }) => {
           const tabName = route.tabName || route.name;
@@ -53,9 +73,10 @@ const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
             <Tabs.TabPane
               key={route.realPath}
               tab={
-                <TabMenu
+                <TabPaneContextMenu
                   path={path}
                   pathKey={route.realPath}
+                  setTabPanes={setTabPanes}
                   tabPanes={tabPanes}
                   keeperKey={route.keeperKey}
                 >
@@ -72,9 +93,9 @@ const TabPanes: React.FC<TabPaneProps> = ({ path, tabPanes, tabKey }) => {
                       className={closeClassName}
                     />
                   </Space>
-                </TabMenu>
+                </TabPaneContextMenu>
               }
-            ></Tabs.TabPane>
+            />
           );
         })}
       </Tabs>

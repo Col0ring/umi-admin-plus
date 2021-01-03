@@ -43,6 +43,8 @@ export default {
     const { token } = req.headers;
     if (token === '123456') {
       const user: UserProps = {
+        avatar:
+          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
         email: '123456@163.com',
         phone: '123456789',
         name: 'admin',

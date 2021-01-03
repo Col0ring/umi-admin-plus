@@ -20,6 +20,8 @@ const NavBar: React.FC = () => {
     tabPanes,
     tabKey,
     setCollapsed,
+    matchedRoutes,
+    setTabPanes,
   } = useLayout();
 
   const { isMathRoles, roles } = useAuth();
@@ -30,6 +32,8 @@ const NavBar: React.FC = () => {
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
   };
+
+  const currentRoute = matchedRoutes[matchedRoutes.length - 1]?.route || {};
 
   let currentTabPanes = tabPanes;
   // 当不符合条件才判断，减少遍历
@@ -79,7 +83,13 @@ const NavBar: React.FC = () => {
         </div>
       </Layout.Header>
       {setting.tabsShow && (
-        <TabPanes tabPanes={currentTabPanes} tabKey={tabKey} path={path} />
+        <TabPanes
+          tabPanes={currentTabPanes}
+          setTabPanes={setTabPanes}
+          tabKey={tabKey}
+          path={path}
+          currentRoute={currentRoute}
+        />
       )}
     </div>,
   );

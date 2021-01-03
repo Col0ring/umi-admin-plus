@@ -46,7 +46,7 @@ const UserInfo: React.FC = () => {
     dropDownVisible: false,
   });
 
-  const { resetUser } = useAuth();
+  const { resetUser, user } = useAuth();
   const isMobile = useMobile();
   const { toggleFull } = useContext(AccessLayoutContext);
 
@@ -81,11 +81,7 @@ const UserInfo: React.FC = () => {
         onVisibleChange={onVisibleChange}
       >
         <div className={styles.avatarContainer}>
-          <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            size="large"
-            alt="头像"
-          />
+          <Avatar src={user?.avatar} size="large" alt="头像" />
           <DownOutlined className={iconClassName} />
         </div>
       </Dropdown>

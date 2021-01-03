@@ -7,7 +7,7 @@ import styles from './index.less';
 import setting from '@/setting';
 
 export interface MenuItemProps {
-  click?: (e: React.MouseEvent) => void;
+  click?: (e?: React.MouseEvent) => void;
   icon?: React.ReactNode;
   name?: string;
   render?: React.ReactNode;
@@ -30,8 +30,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   });
 
   useContextMenu(contentMenuRef, {
-    click: e => {
-      setState(draft => {
+    click: (e) => {
+      setState((draft) => {
         draft.visible = true;
         if (e.clientX + 140 > window.innerWidth) {
           draft.left = e.clientX - 152;
@@ -42,7 +42,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       });
     },
     clickAway: () => {
-      setState(draft => {
+      setState((draft) => {
         draft.visible = false;
       });
     },
@@ -54,7 +54,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       {state.visible &&
         createPortal(
           <div
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             style={{
               position: setting.navbarFixed ? 'fixed' : 'absolute',
               top: state.top,
@@ -69,7 +69,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                 }
                 const onClick = (e: React.MouseEvent) => {
                   (menu.click && menu.click(e)) || (click && click(index, e));
-                  setState(draft => {
+                  setState((draft) => {
                     draft.visible = false;
                   });
                 };

@@ -1,6 +1,6 @@
 import { matchPath } from 'umi';
 import { Model } from '@/interfaces/Model';
-import { LayoutData, MatchedRoutes } from '@/interfaces/Layout';
+import { LayoutData, MatchedRoute } from '@/interfaces/Layout';
 
 function pushTabPane(
   tabPanes: LayoutData['tabPanes'],
@@ -100,9 +100,7 @@ const layoutModel: Model<LayoutModelState> = {
       if (payload.length === 0) {
         return;
       }
-      const openKeys = payload.map(
-        ({ route }: MatchedRoutes) => route.realPath,
-      );
+      const openKeys = payload.map(({ route }: MatchedRoute) => route.realPath);
       const currentLayoutMatched = payload[payload.length - 1];
       const currentLayoutRoute = currentLayoutMatched.route;
       const selectedKey =

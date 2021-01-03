@@ -25,7 +25,7 @@ export type LayoutRoute = IRoute & {
   };
 };
 
-export interface MatchedRoutes {
+export interface MatchedRoute {
   route: LayoutRoute & {
     realPath: string;
     keeperKey: string;
@@ -36,11 +36,11 @@ export interface MatchedRoutes {
 export interface LayoutData {
   selectedKey: string;
   collapsed: boolean;
-  breadcrumbs: MatchedRoutes[];
-  tabPanes: MatchedRoutes[];
+  breadcrumbs: MatchedRoute[];
+  tabPanes: MatchedRoute[];
   tabKey: string;
   openKeys: string[];
-  matchedRoutes: MatchedRoutes[];
+  matchedRoutes: MatchedRoute[];
   inLayout: boolean;
   isNotFound: boolean;
 }

@@ -11,10 +11,12 @@ const useCloseTab = (tabPanes: LayoutData['tabPanes'], path: string) => {
   const close = useCallback(
     (key: string) => {
       const currentIndex = tabPanes.findIndex(
-        pane => pane.route.realPath === key,
+        (pane) => pane.route.realPath === key,
       );
       const keeperKey = pathToRegexp(tabPanes[currentIndex].route.keeperKey);
-      const currentPanes = tabPanes.filter(pane => pane.route.realPath !== key);
+      const currentPanes = tabPanes.filter(
+        (pane) => pane.route.realPath !== key,
+      );
       if (currentPanes.length === 0) {
         setTabPanes(currentPanes);
         const unListen = history.listen(() => {
