@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { SketchOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { urlReg } from '@/utils/validators';
@@ -8,7 +8,7 @@ export interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ title, logo }) => {
-  const isUrl = urlReg.test(logo);
+  const isUrl = useMemo(() => urlReg.test(logo), [logo]);
   return (
     <h1 className={styles.logo}>
       {logo ? (

@@ -82,7 +82,12 @@ const TabPanes: React.FC<TabPaneProps> = ({
                 >
                   <Space className={styles.pane}>
                     <div>
-                      {route.icon && <TotalIcons name={route.icon} />}
+                      {route.icon && (
+                        <TotalIcons
+                          style={{ marginRight: 8 }}
+                          name={route.icon}
+                        />
+                      )}
                       <span>{tabName}</span>
                     </div>
                     <CloseCircleOutlined
